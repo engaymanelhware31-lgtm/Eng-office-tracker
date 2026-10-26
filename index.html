@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نظام متابعة العملاء والمعاملات الهندسية</title>
+<style>
+:root{--navy:#17365d;--blue:#4472c4;--bg:#f4f7fb;--ink:#1d2939;--muted:#667085;--line:#e2e8f0;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Tahoma,Arial,sans-serif}
+header{background:var(--navy);color:white;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+header h1{font-size:20px;margin:0}header small{opacity:.85}.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 70px)}
+nav{background:white;border-left:1px solid var(--line);padding:18px}
+nav a{display:block;color:var(--ink);text-decoration:none;padding:12px;border-radius:8px;margin-bottom:5px}
+nav a.active,nav a:hover{background:#eaf0fb;color:var(--navy);font-weight:bold}
+main{padding:24px;min-width:0}.topline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+h2{font-size:22px;margin:0 0 5px}.muted{color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:20px 0}
+.card,.panel{background:white;border:1px solid var(--line);border-radius:13px;padding:17px}
+.card .num{font-size:28px;font-weight:bold;margin-top:8px;color:var(--navy)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}button,input,select{font:inherit;border-radius:8px;padding:10px 12px;border:1px solid #cfd8e3;background:white}
+button{cursor:pointer;background:var(--blue);color:white;border-color:var(--blue)}button.secondary{background:white;color:var(--navy)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.filters input{flex:1;min-width:180px}
+table{border-collapse:collapse;width:100%;min-width:680px}th,td{text-align:right;padding:13px 10px;border-bottom:1px solid var(--line);font-size:13px}th{background:#f8fafc;color:#475467}
+.tablewrap{overflow:auto}.pill{display:inline-block;border-radius:30px;padding:5px 9px;font-size:12px;background:#fff2cc;color:#7a5200}.pill.done{background:#dcfce7;color:#166534}.pill.wait{background:#dbeafe;color:#1d4ed8}
+footer{margin-top:18px;color:var(--muted);font-size:12px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}nav{display:flex;gap:5px;overflow:auto;border-left:0;border-bottom:1px solid var(--line);padding:8px}nav a{white-space:nowrap;margin:0}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}main{padding:15px}}
+@media(max-width:430px){.cards{grid-template-columns:1fr 1fr}.card{padding:12px}.card .num{font-size:23px}}
+</style>
+</head>
+<body>
+<header><div><h1>نظام متابعة العملاء والمعاملات</h1><small>لوحة إدارة المكتب الهندسي</small></div><div>المكتب التجريبي　|　مدير المكتب</div></header>
+<div class="layout">
+<nav>
+<a class="active" href="#">لوحة التحكم</a><a href="#transactions">المعاملات</a><a href="#">العملاء</a><a href="#">المشروعات</a><a href="#">المهام والمتابعات</a><a href="#">التقارير</a><a href="#">الموظفون والصلاحيات</a><a href="#">إعدادات المكتب</a>
+</nav>
+<main>
+<div class="topline"><div><h2>لوحة التحكم</h2><div class="muted">ملخص متابعة معاملات المكتب</div></div><div class="actions"><button onclick="alert('هذه واجهة تجريبية؛ نموذج الإضافة سيُربط بقاعدة البيانات في مرحلة التطوير.')">＋ إضافة معاملة</button><button class="secondary" onclick="window.print()">طباعة التقرير</button></div></div>
+<div class="cards">
+<div class="card"><div class="muted">إجمالي المعاملات</div><div class="num">24</div></div>
+<div class="card"><div class="muted">قيد الإجراء</div><div class="num">11</div></div>
+<div class="card"><div class="muted">تحتاج إلى متابعة</div><div class="num">6</div></div>
+<div class="card"><div class="muted">تم إنجازها</div><div class="num">7</div></div>
+</div>
+<section class="panel" id="transactions">
+<div class="topline"><div><h2 style="font-size:18px">آخر المعاملات</h2><div class="muted">بيانات توضيحية وليست معاملات حقيقية</div></div></div>
+<div class="filters"><input id="search" placeholder="بحث برقم المعاملة أو اسم العميل" oninput="filterRows()"><select id="status" onchange="filterRows()"><option value="">كل الحالات</option><option>قيد الإجراء</option><option>انتظار الاعتماد</option><option>تم الإنجاز</option></select></div>
+<div class="tablewrap"><table id="txTable"><thead><tr><th>رقم المعاملة</th><th>العميل</th><th>النوع</th><th>الحالة</th><th>المتابعة التالية</th><th>المسؤول</th></tr></thead><tbody>
+<tr><td>BLD-DEMO-001</td><td>عميل تجريبي 1</td><td>رخصة بناء</td><td><span class="pill">قيد الإجراء</span></td><td>استكمال المخططات</td><td>موظف 1</td></tr>
+<tr><td>CTE-DEMO-002</td><td>عميل تجريبي 2</td><td>إيصال تيار</td><td><span class="pill wait">انتظار الاعتماد</span></td><td>متابعة الاعتماد</td><td>موظف 2</td></tr>
+<tr><td>SUR-DEMO-003</td><td>عميل تجريبي 3</td><td>انتهاء إشراف</td><td><span class="pill done">تم الإنجاز</span></td><td>إغلاق المعاملة</td><td>موظف 1</td></tr>
+</tbody></table></div>
+</section>
+<footer>نموذج واجهة أولي فقط — غير متصل بقاعدة بيانات ولا يحفظ بيانات المستخدمين.</footer>
+</main>
+</div>
+<script>
+function filterRows(){
+ const q=document.getElementById('search').value.toLowerCase();
+ const s=document.getElementById('status').value;
+ document.querySelectorAll('#txTable tbody tr').forEach(r=>{
+  const text=r.innerText.toLowerCase();
+  const status=r.cells[3].innerText.trim();
+  r.style.display=(!q||text.includes(q))&&(!s||status===s)?'':'none';
+ });
+}
+</script>
+</body></html>
